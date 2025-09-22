@@ -90,6 +90,8 @@ def convert_type(t):
             return "Void"
         case utils.Bottom():
             return "_"
+        case utils.AnyType():
+            return "Any"
         case utils.TupleType(types):
             return f"(Vector {' '.join([convert_type(typ) for typ in types])})"
         case utils.ListType(elt_type):

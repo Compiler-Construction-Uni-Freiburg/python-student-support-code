@@ -1539,6 +1539,12 @@ def compile(compiler, compiler_name, type_check_L, type_check_C,
         program = compiler.reveal_functions(program)
         trace_ast_and_concrete(program)
 
+    if hasattr(compiler, 'resolve'):
+        trace('\n# resolve\n')
+        type_check_L(program)
+        program = compiler.resolve(program)
+        trace_ast_and_concrete(program)
+
     if hasattr(compiler, 'convert_assignments'):
         trace('\n# assignment conversion\n')
         type_check_L(program)
@@ -1644,3 +1650,6 @@ def run_tests(lang, compiler, compiler_name, type_check_dict, interp_dict):
           + ' for compiler ' + compiler_name + ' on language ' + lang)
     print('passes: ' + repr(successful_passes) + '/' + repr(total_passes) \
           + ' for compiler ' + compiler_name + ' on language ' + lang)
+
+    failed_tests = total_tests - successful_tests
+    return failed_tests
